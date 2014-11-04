@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
-import requests, re
+import requests, re, json
 
+qbjson = {}
 qblist = []
 
 baseurl = 'http://www.pro-football-reference.com'
@@ -12,8 +13,8 @@ r = requests.get(baseurl + qbindex)
 
 mainsoup = BeautifulSoup(r.content)
 
-for letter in mainsoup.find_all('pre')[:1]:
-	for qb in letter.find_all('a')[:1]:
+for letter in mainsoup.find_all('pre'):
+	for qb in letter.find_all('a'):
 		qbdict = {}
 		qbdict['name'] = qb.text
 		qburl = qb['href']
@@ -34,4 +35,7 @@ for letter in mainsoup.find_all('pre')[:1]:
 		
 		qblist.append(qbdict)
 
-print qblist
+qbjson['qblist'] = qblist
+
+with open('qbstats.js', 'wb') as f:
+	f.write(json.dumps(qbjson))
