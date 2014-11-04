@@ -37,5 +37,5 @@ for letter in mainsoup.find_all('pre'):
 
 qbjson['qblist'] = qblist
 
-with open('qbstats.js', 'wb') as f:
+with open('qbstats.json', 'wb') as f:
 	f.write(json.dumps(qbjson))
